@@ -1,5 +1,3 @@
-@Grab( 'com.ecwid.consul:consul-api:1.4.2' )
-
 import com.ecwid.consul.v1.*
 import java.lang.reflect.Array
 import jenkins.generators.builders.Base

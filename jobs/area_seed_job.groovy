@@ -1,5 +1,3 @@
-@Grab('org.yaml:snakeyaml:1.18')
-
 import groovy.io.FileType
 import java.lang.reflect.Array
 import jenkins.generators.utils.Project
