@@ -24,7 +24,7 @@ class Base {
             CommonExtensions.addStandardSettings(delegate)
             publishers {
                 publishers {
-                    CommonExtensions.addExtendedEmail(delegate)
+                    CommonExtensions.addExtendedEmail(delegate, '')
                 }
             }
         }
