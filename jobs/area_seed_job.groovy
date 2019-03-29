@@ -22,7 +22,7 @@ resultlist.each { fileName ->
     projectsInArea << project
 }
 
-areasToAutomate.each { area ->
+areasToAutomate.keySet().each { area ->
 
     def areaId = area.name.toLowerCase()
     folder(areaId) {
@@ -46,7 +46,8 @@ areasToAutomate.each { area ->
         }
     }
 
-    area.projects.each { project ->
+    def projectsInArea = areasToAutomate.get(area)
+    projectsInArea.each { project ->
         def reposToInclude = [
             [
                 branch: 'refs/heads/master',
@@ -61,7 +62,7 @@ areasToAutomate.each { area ->
         ]
 
         def projectGenerator = new Base(
-            name: project.name.toLowerCase() + '_generator',
+            name: areaId + '/' + project.name.toLowerCase() + '_generator',
             displayName: project.name + ' Generator',
             description: 'Generates the build configurations for the ' + project.name + ' repository',
         ).build(this).with {

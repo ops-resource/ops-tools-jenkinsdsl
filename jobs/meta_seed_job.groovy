@@ -21,7 +21,7 @@ def reposToInclude = [
 ]
 
 def areaGenerator = new Base(
-    name: 'area_generator',
+    name: 'meta/area_generator',
     displayName: 'Area Generator',
     description: 'Generates the different areas or categories of jobs',
 ).build(this).with {
