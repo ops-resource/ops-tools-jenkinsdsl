@@ -1,7 +1,6 @@
 import groovy.io.FileType
 import java.lang.reflect.Array
 import jenkins.generators.utils.Project
-import jenkins.generators.utils.ScmExtensions
 import org.yaml.snakeyaml.Yaml
 
 def areasToAutomate  = [:]
@@ -48,19 +47,6 @@ areasToAutomate.keySet().each { area ->
 
     def projectsInArea = areasToAutomate.get(area)
     projectsInArea.each { project ->
-        def reposToInclude = [
-            [
-                branch: 'refs/heads/master',
-                name: "dsl",
-                url: 'https://github.com/ops-resource/ops-tools-jenkinsdsl'
-            ],
-            [
-                branch: '**',
-                name: "projects",
-                url: project.url
-            ]
-        ]
-
         def projectGenerator = new Base(
             name: areaId + '/' + project.name.toLowerCase() + '_generator',
             displayName: project.name + ' Generator',
@@ -69,6 +55,30 @@ areasToAutomate.keySet().each { area ->
 
             multiscm {
                 ScmExtensions.project_repos(delegate, reposToInclude, false)
+                git {
+                    remote {
+                        url('https://github.com/ops-resource/ops-tools-jenkinsdsl')
+                    }
+
+                    branch 'refs/heads/master'
+                    extensions {
+                        ignoreNotifyCommit()
+                        localBranch()
+                        relativeTargetDirectory('dsl')
+                    }
+                }
+
+                git {
+                    remote {
+                        url(project.url)
+                    }
+
+                    branch '**/feature, **/hotfix, **/release, **/master'
+                    extensions {
+                        localBranch()
+                        relativeTargetDirectory('projects')
+                    }
+                }
             }
 
             triggers {
@@ -76,9 +86,7 @@ areasToAutomate.keySet().each { area ->
             }
             steps {
 
-                powershell {
-                    readFileFromWorkspace('dsl/jobs/Get-Dependencies.ps1')
-                }
+                powershell(readFileFromWorkspace('dsl/jobs/Get-Dependencies.ps1'))
 
                 dsl {
                     external "dsl/jobs/project_seed_job.groovy"

@@ -1,24 +1,10 @@
 import com.ecwid.consul.v1.*
 import java.lang.reflect.Array
 import jenkins.generators.builders.Base
-import jenkins.generators.utils.ScmExtensions
 
 client = new ConsulClient("127.0.0.1:8500")
 def keyValueResponse = client.getKVValue('config/projects/projectrepository')
 def projectsRepositoryUrl = keyValueResponse.getValue().getDecodedValue()
-
-def reposToInclude = [
-    [
-        branch: 'refs/heads/master',
-        name: "dsl",
-        url: 'https://github.com/ops-resource/ops-tools-jenkinsdsl'
-    ],
-    [
-        branch: 'refs/heads/master',
-        name: "projects",
-        url: projectsRepositoryUrl
-    ]
-]
 
 def areaGenerator = new Base(
     name: 'meta/area_generator',
@@ -27,7 +13,30 @@ def areaGenerator = new Base(
 ).build(this).with {
 
     multiscm {
-        ScmExtensions.project_repos(delegate, reposToInclude, false)
+        git {
+            remote {
+                url('https://github.com/ops-resource/ops-tools-jenkinsdsl')
+            }
+
+            branch 'refs/heads/master'
+            extensions {
+                ignoreNotifyCommit()
+                localBranch()
+                relativeTargetDirectory('dsl')
+            }
+        }
+
+        git {
+            remote {
+                url(projectsRepositoryUrl)
+            }
+
+            branch 'refs/heads/master'
+            extensions {
+                localBranch()
+                relativeTargetDirectory('projects')
+            }
+        }
     }
 
     triggers {
@@ -35,9 +44,7 @@ def areaGenerator = new Base(
     }
     steps {
 
-        powershell {
-            readFileFromWorkspace('dsl/jobs/Get-Dependencies.ps1')
-        }
+        powershell(readFileFromWorkspace('dsl/jobs/Get-Dependencies.ps1'))
 
         dsl {
             external "dsl/jobs/area_seed_job.groovy"
