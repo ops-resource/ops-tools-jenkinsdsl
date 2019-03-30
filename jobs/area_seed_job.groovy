@@ -76,13 +76,17 @@ areasToAutomate.keySet().each { area ->
             }
             steps {
 
+                powershell {
+                    readFileFromWorkspace('dsl/jobs/build.ps1')
+                }
+
                 dsl {
                     external "dsl/jobs/project_seed_job.groovy"
                     lookupStrategy('JENKINS_ROOT')
                     removeAction('DELETE')
                     removeViewAction('DELETE')
 
-                    additionalClasspath "dsl/src/main/groovy"
+                    additionalClasspath "lib/*.jar"
 
                 }
             }
