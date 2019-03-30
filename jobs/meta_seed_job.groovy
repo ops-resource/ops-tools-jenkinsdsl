@@ -21,7 +21,7 @@ def areaGenerator = new Base(
                 url('https://github.com/ops-resource/ops-tools-jenkinsdsl')
             }
 
-            branch 'refs/heads/master'
+            branch 'refs/heads/feature/initial'
             extensions {
                 ignoreNotifyCommit()
                 localBranch()
