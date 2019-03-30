@@ -36,7 +36,7 @@ def areaGenerator = new Base(
     steps {
 
         powershell {
-            readFileFromWorkspace('dsl/jobs/build.ps1')
+            readFileFromWorkspace('dsl/jobs/Get-Dependencies.ps1')
         }
 
         dsl {
