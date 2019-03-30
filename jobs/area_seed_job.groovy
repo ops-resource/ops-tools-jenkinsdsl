@@ -2,7 +2,8 @@ import groovy.io.FileType
 import java.lang.reflect.Array
 import jenkins.generators.builders.Base
 import jenkins.generators.utils.Project
-import org.yaml.snakeyaml.*
+import org.yaml.snakeyaml.constructor.Constructor
+import org.yaml.snakeyaml.Yaml
 
 def areasToAutomate  = [:]
 
