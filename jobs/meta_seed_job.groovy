@@ -44,7 +44,7 @@ def areaGenerator = new Base(
 
     steps {
 
-        powerShell('$ErrorActionPreference = "Stop";$path = Join-Path $env:Workspace "dsl/jobs/jenkins/Get-Dependencies.ps1";& $path')
+        powerShell('$ErrorActionPreference = "Stop";$path = Join-Path $env:Workspace "dsl/jobs/Get-Dependencies.ps1";& $path')
 
         dsl {
             external "dsl/jobs/area_seed_job.groovy"
