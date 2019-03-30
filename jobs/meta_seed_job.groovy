@@ -6,11 +6,14 @@ client = new ConsulClient("127.0.0.1:8500")
 def keyValueResponse = client.getKVValue('config/projects/projectrepository')
 def projectsRepositoryUrl = keyValueResponse.getValue().getDecodedValue()
 
+def areaGeneratorName = 'meta/area_generator'
 def areaGenerator = new Base(
-    name: 'meta/area_generator',
+    name: areaGeneratorName,
     displayName: 'Area Generator',
     description: 'Generates the different areas or categories of jobs',
 ).build(this).with {
+
+    label('powershell')
 
     multiscm {
         git {
@@ -39,9 +42,6 @@ def areaGenerator = new Base(
         }
     }
 
-    triggers {
-        scm 'H/5 * * * *'
-    }
     steps {
 
         powerShell('$ErrorActionPreference = "Stop";$path = Join-Path $env:Workspace "dsl/jobs/jenkins/Get-Dependencies.ps1";& $path')
@@ -56,6 +56,10 @@ def areaGenerator = new Base(
 
         }
     }
+
+    triggers {
+        scm 'H/5 * * * *'
+    }
 }
 
-queue(areaGenerator)
+queue(areaGeneratorName)

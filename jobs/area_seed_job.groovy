@@ -47,11 +47,14 @@ areasToAutomate.keySet().each { area ->
 
     def projectsInArea = areasToAutomate.get(area)
     projectsInArea.each { project ->
+        projectGeneratorName = areaId + '/' + project.name.toLowerCase() + '_generator'
         def projectGenerator = new Base(
-            name: areaId + '/' + project.name.toLowerCase() + '_generator',
+            name: projectGeneratorName,
             displayName: project.name + ' Generator',
             description: 'Generates the build configurations for the ' + project.name + ' repository',
         ).build(this).with {
+
+            label('powershell')
 
             multiscm {
                 ScmExtensions.project_repos(delegate, reposToInclude, false)
@@ -81,9 +84,6 @@ areasToAutomate.keySet().each { area ->
                 }
             }
 
-            triggers {
-                scm 'H/5 * * * *'
-            }
             steps {
 
                 powerShell('$ErrorActionPreference = "Stop";$path = Join-Path $env:Workspace "dsl/jobs/jenkins/Get-Dependencies.ps1";& $path')
@@ -98,10 +98,14 @@ areasToAutomate.keySet().each { area ->
 
                 }
             }
+
+            triggers {
+                scm 'H/5 * * * *'
+            }
         }
 
         if (false) {
-            queue(projectGenerator)
+            queue(projectGeneratorName)
         }
     }
 }
