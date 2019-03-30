@@ -16,7 +16,6 @@ class CommonExtensions {
                 preBuildCleanup()
                 timeout {
                     elastic(300, 3, 30)
-                    likelyStuck()
                 }
                 timestamps()
             }
