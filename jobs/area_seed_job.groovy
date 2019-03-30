@@ -41,7 +41,7 @@ areasToAutomate.keySet().each { area ->
         filterBuildQueue()
         filterExecutors()
         jobs {
-            regex(/(?i)(${areaId}//.*)/)
+            regex('/(?i)(${areaId}/.*)/')
         }
     }
 
