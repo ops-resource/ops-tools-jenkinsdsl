@@ -8,7 +8,7 @@ import org.yaml.snakeyaml.Yaml
 def areasToAutomate  = [:]
 
 hudson.FilePath workspace = hudson.model.Executor.currentExecutor().getCurrentWorkspace()
-def resultList = workspace.list().findAll { it.name  ==~ /\*\.yml/ }
+def resultList = workspace.list('**/*.yaml')
 
 Yaml yaml = new Yaml(new Constructor(Project.class))
 resultlist.each { fileName ->
