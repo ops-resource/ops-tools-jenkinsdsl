@@ -8,10 +8,12 @@ import org.yaml.snakeyaml.Yaml
 def areasToAutomate  = [:]
 
 hudson.FilePath workspace = hudson.model.Executor.currentExecutor().getCurrentWorkspace()
-def resultList = workspace.list('**/*.yaml')
+def resultList = workspace.list('projects/**/*.yaml')
+
+out.println('resultList.length: ' + resultList.length)
 
 Yaml yaml = new Yaml(new Constructor(Project.class))
-resultlist.each { fileName ->
+resultList.each { fileName ->
     Project project = yaml.load(readFileFromWorkspace(fileName))
 
     if (!areasToAutomate.containsKey(project.getArea())){
@@ -25,6 +27,7 @@ resultlist.each { fileName ->
 
 areasToAutomate.keySet().each { area ->
 
+    out.println('Generating view for area: ' + area.name)
     def areaId = area.name.toLowerCase()
     folder(areaId) {
         displayName(area.name)
@@ -50,6 +53,8 @@ areasToAutomate.keySet().each { area ->
     def projectsInArea = areasToAutomate.get(area)
     projectsInArea.each { project ->
         projectGeneratorName = areaId + '/' + project.name.toLowerCase() + '_generator'
+        out.println('Generating project: ' + projectGeneratorName)
+
         def projectGenerator = new Base(
             name: projectGeneratorName,
             displayName: project.name + ' Generator',
