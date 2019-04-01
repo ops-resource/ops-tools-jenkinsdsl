@@ -14,7 +14,7 @@ out.println('resultList.length: ' + resultList.length)
 
 Yaml yaml = new Yaml(new Constructor(Project.class))
 resultList.each { fileName ->
-    Project project = yaml.load(readFileFromWorkspace(fileName))
+    Project project = yaml.load(readFileFromWorkspace(fileName.getRemote()))
 
     if (!areasToAutomate.containsKey(project.getArea())){
         def projectList = []
