@@ -1,4 +1,4 @@
-package jenkins.generators.utils
+package jenkins.generators.utils;
 
 public class Project {
 
