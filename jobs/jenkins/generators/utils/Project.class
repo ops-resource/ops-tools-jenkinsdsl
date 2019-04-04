@@ -1,5 +1,7 @@
 package jenkins.generators.utils;
 
+import java.util;
+
 public class Project {
 
     private String Area;
@@ -8,34 +10,34 @@ public class Project {
     private List<BranchReference> Refspecs;
 
     String getArea() {
-        return this.Area
+        return this.Area;
     }
 
     String getDescription() {
-        return this.Description
+        return this.Description;
     }
 
     String getName() {
-        return this.Name
+        return this.Name;
     }
 
     List<BranchReference> getRefspecs() {
-        return this.Refspecs
+        return this.Refspecs;
     }
 
     void setArea(String area) {
-        this.Area = area
+        this.Area = area;
     }
 
     void setDescription(String description) {
-        this.Description = description
+        this.Description = description;
     }
 
     void setName(String name) {
-        this.Name = name
+        this.Name = name;
     }
 
     void setRefspecs(List<BranchReference> refspecs) {
-        this.Refspecs = refspecs
+        this.Refspecs = refspecs;
     }
 }
