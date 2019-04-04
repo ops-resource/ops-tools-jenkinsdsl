@@ -2,12 +2,12 @@ package jenkins.generators.utils;
 
 import java.util;
 
-public class Project {
+class Project {
 
-    private String Area;
-    private String Description;
-    private String Name;
-    private List<BranchReference> Refspecs;
+    String Area;
+    String Description;
+    String Name;
+    List<BranchReference> Refspecs;
 
     String getArea() {
         return this.Area;
