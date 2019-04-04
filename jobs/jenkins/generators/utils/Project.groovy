@@ -1,6 +1,6 @@
 package jenkins.generators.utils;
 
-import java.util;
+import java.util.*;
 
 class Project {
 
