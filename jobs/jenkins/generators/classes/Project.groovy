@@ -1,6 +1,7 @@
-package jenkins.generators.utils;
+package jenkins.generators.classes;
 
 import java.util.*;
+import jenkins.generators.classes.BranchReference;
 
 class Project {
     String area;

@@ -1,4 +1,4 @@
-package jenkins.generators.utils
+package jenkins.generators.classes
 
 class BranchReference {
     String id
